@@ -3,110 +3,109 @@ import streamlit as st
 # -----------------------------
 # Page Config
 # -----------------------------
-st.set_page_config(page_title="🧮 Simple Calculator", page_icon="🧮", layout="centered")
+st.set_page_config(page_title="Unique Calculator", page_icon="🧮", layout="centered")
 
 # -----------------------------
-# Custom CSS to Hide Default Bar & Add Styling
+# Custom CSS Styling
 # -----------------------------
-hide_streamlit_style = """
+st.markdown("""
     <style>
-        /* Hide Streamlit default header, footer, menu */
-        #MainMenu {visibility: hidden;}
-        header {visibility: hidden;}
-        footer {visibility: hidden;}
+        /* Hide Streamlit default top bar */
+        header, .st-emotion-cache-18ni7ap, .st-emotion-cache-1dp5vir {visibility: hidden;}
 
         /* Page background */
-        body {
-            background: linear-gradient(135deg, #1f1c2c, #928DAB);
+        .stApp {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             color: white;
-        }
-
-        /* Center the calculator */
-        .calculator-box {
-            background: #2c2c54;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
-            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         /* Title */
-        .calculator-title {
-            font-size: 2em;
-            font-weight: bold;
+        h1 {
+            text-align: center;
+            font-size: 42px;
             color: #FFD700;
-            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px black;
+        }
+
+        /* Custom input container */
+        .calc-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.5);
+        }
+
+        /* Custom result display */
+        .result-box {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 25px;
+            font-size: 22px;
+            text-align: center;
+            color: #00FF7F;
+            font-weight: bold;
+            box-shadow: 0px 3px 12px rgba(0,0,0,0.5);
         }
 
         /* Buttons */
-        button[kind="secondary"] {
-            background-color: #FFD700 !important;
-            color: black !important;
-            border-radius: 10px !important;
-            font-weight: bold !important;
-        }
-
-        /* Result styling */
-        .stSuccess {
-            background: #4CAF50;
-            color: white;
-            padding: 15px;
+        div.stButton > button {
+            width: 100%;
             border-radius: 10px;
+            background: #FFD700;
+            color: black;
             font-size: 18px;
-            text-align: center;
+            font-weight: bold;
+            border: none;
+            padding: 12px;
+            margin-top: 15px;
+            transition: 0.3s;
         }
-
-        .stError {
-            background: #E74C3C;
+        div.stButton > button:hover {
+            background: #FFA500;
             color: white;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 18px;
-            text-align: center;
         }
     </style>
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 # -----------------------------
-# Calculator UI
+# App UI
 # -----------------------------
-st.markdown('<div class="calculator-box">', unsafe_allow_html=True)
-st.markdown('<div class="calculator-title">🧮 Simple Calculator</div>', unsafe_allow_html=True)
+st.title("🧮Calculator")
 
-# Inputs
-num1 = st.number_input("Enter first number", value=0.0, key="num1")
-num2 = st.number_input("Enter second number", value=0.0, key="num2")
+with st.container():
+    st.markdown('<div class="calc-box">', unsafe_allow_html=True)
 
-# Operation selection
-operation = st.selectbox(
-    "Choose an operation",
-    ["Addition", "Subtraction", "Multiplication", "Division"]
-)
+    num1 = st.number_input("Enter first number", value=0.0, key="num1")
+    num2 = st.number_input("Enter second number", value=0.0, key="num2")
 
-# Calculate button
-if st.button("Calculate"):
-    if operation == "Addition":
-        result = num1 + num2
-        st.success(f"Result: {num1} + {num2} = {result}")
-    elif operation == "Subtraction":
-        result = num1 - num2
-        st.success(f"Result: {num1} - {num2} = {result}")
-    elif operation == "Multiplication":
-        result = num1 * num2
-        st.success(f"Result: {num1} × {num2} = {result}")
-    elif operation == "Division":
-        if num2 == 0:
-            st.error("🚫 Division by zero is not allowed.")
-        else:
-            result = num1 / num2
-            st.success(f"Result: {num1} ÷ {num2} = {result}")
+    operation = st.selectbox(
+        "Choose an operation",
+        ["Addition", "Subtraction", "Multiplication", "Division"]
+    )
 
-st.markdown('</div>', unsafe_allow_html=True)
+    if st.button("Calculate"):
+        if operation == "Addition":
+            result = num1 + num2
+            result_text = f"Result: {num1} + {num2} = {result}"
+        elif operation == "Subtraction":
+            result = num1 - num2
+            result_text = f"Result: {num1} - {num2} = {result}"
+        elif operation == "Multiplication":
+            result = num1 * num2
+            result_text = f"Result: {num1} × {num2} = {result}"
+        elif operation == "Division":
+            if num2 == 0:
+                result_text = "❌ Division by zero is not allowed."
+            else:
+                result = num1 / num2
+                result_text = f"Result: {num1} ÷ {num2} = {result}"
 
+        # Show result in custom result box
+        st.markdown(f'<div class="result-box">{result_text}</div>', unsafe_allow_html=True)
 
-# -----------------------------
-# Footer
-# -----------------------------
-st.markdown("<p style='text-align:center; margin-top:40px;'>Made with ❤️ using Streamlit</p>", unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
 
