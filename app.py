@@ -1,4 +1,5 @@
 import streamlit as st
+import math
 
 # -----------------------------
 # Page Config
@@ -89,29 +90,34 @@ st.markdown("""
 # -----------------------------
 # App UI
 # -----------------------------
-st.title("🧮 Calculator")
+st.title("🧮 Unique Calculator")
 
 with st.container():
     st.markdown('<div class="calc-box">', unsafe_allow_html=True)
 
+    # Inputs
     num1 = st.number_input("Enter first number", value=0.0, key="num1")
-    num2 = st.number_input("Enter second number", value=0.0, key="num2")
+    num2 = st.number_input("Enter second number (ignored for factorial)", value=0.0, key="num2")
 
+    # Operation selection
     operation = st.selectbox(
         "Choose an operation",
-        ["Addition", "Subtraction", "Multiplication", "Division"]
+        ["Addition", "Subtraction", "Multiplication", "Division", "Percentage", "Factorial"]
     )
 
     if st.button("Calculate"):
         if operation == "Addition":
             result = num1 + num2
             result_text = f"Result: {num1} + {num2} = {result}"
+
         elif operation == "Subtraction":
             result = num1 - num2
             result_text = f"Result: {num1} - {num2} = {result}"
+
         elif operation == "Multiplication":
             result = num1 * num2
             result_text = f"Result: {num1} × {num2} = {result}"
+
         elif operation == "Division":
             if num2 == 0:
                 result_text = "❌ Division by zero is not allowed."
@@ -119,10 +125,22 @@ with st.container():
                 result = num1 / num2
                 result_text = f"Result: {num1} ÷ {num2} = {result}"
 
+        elif operation == "Percentage":
+            result = (num1 / 100) * num2
+            result_text = f"{num1}% of {num2} = {result}"
+
+        elif operation == "Factorial":
+            if num1 < 0 or int(num1) != num1:
+                result_text = "❌ Factorial is only defined for non-negative integers."
+            else:
+                result = math.factorial(int(num1))
+                result_text = f"{int(num1)}! = {result}"
+
         # Show result in custom result box
         st.markdown(f'<div class="result-box">{result_text}</div>', unsafe_allow_html=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
+
 
 
 
