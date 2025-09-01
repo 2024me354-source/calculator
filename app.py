@@ -10,8 +10,16 @@ st.set_page_config(page_title="Unique Calculator", page_icon="🧮", layout="cen
 # -----------------------------
 st.markdown("""
     <style>
-        /* Hide Streamlit default top bar */
-        header, .st-emotion-cache-18ni7ap, .st-emotion-cache-1dp5vir {visibility: hidden;}
+        /* Hide Streamlit top header & empty space */
+        header {visibility: hidden;}
+        [data-testid="stToolbar"] {display: none;}
+        [data-testid="stDecoration"] {display: none;}
+        [data-testid="stStatusWidget"] {display: none;}
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        .block-container {
+            padding-top: 1rem;
+        }
 
         /* Page background */
         .stApp {
@@ -73,7 +81,7 @@ st.markdown("""
 # -----------------------------
 # App UI
 # -----------------------------
-st.title("🧮Calculator")
+st.title("🧮 Unique Calculator")
 
 with st.container():
     st.markdown('<div class="calc-box">', unsafe_allow_html=True)
@@ -107,5 +115,6 @@ with st.container():
         st.markdown(f'<div class="result-box">{result_text}</div>', unsafe_allow_html=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
+
 
 
