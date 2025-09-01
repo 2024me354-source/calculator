@@ -95,16 +95,21 @@ st.title("🧮 Unique Calculator")
 with st.container():
     st.markdown('<div class="calc-box">', unsafe_allow_html=True)
 
-    # Inputs
-    num1 = st.number_input("Enter first number", value=0.0, key="num1")
-    num2 = st.number_input("Enter second number (ignored for factorial)", value=0.0, key="num2")
-
     # Operation selection
     operation = st.selectbox(
         "Choose an operation",
         ["Addition", "Subtraction", "Multiplication", "Division", "Percentage", "Factorial"]
     )
 
+    # Show inputs dynamically
+    num1 = st.number_input("Enter first number", value=0.0, key="num1")
+
+    if operation != "Factorial":
+        num2 = st.number_input("Enter second number", value=0.0, key="num2")
+    else:
+        num2 = None  # Not needed
+
+    # Calculate
     if st.button("Calculate"):
         if operation == "Addition":
             result = num1 + num2
@@ -140,6 +145,7 @@ with st.container():
         st.markdown(f'<div class="result-box">{result_text}</div>', unsafe_allow_html=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
+
 
 
 
